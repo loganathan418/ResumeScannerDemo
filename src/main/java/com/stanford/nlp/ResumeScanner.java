@@ -118,7 +118,7 @@ public class ResumeScanner{
 
 	// search the noun and verb
 	public static void parserAction() throws Exception {
-		InputStream is = new FileInputStream("C:\\Users\\lmeenakshisundara\\Documents\\Logan_Workspace\\ResumeScannerDemo\\src\\main\\resources\\en-parser-chunking.bin");
+		InputStream is = new FileInputStream("C:\\Users\\lmeenakshisundara\\Documents\\Logan_Code_Repo\\ResumeScannerDemo\\src\\main\\resources\\en-parser-chunking.bin");
 		ParserModel model = new ParserModel(is);
 		Parser parser = ParserFactory.create(model);
 		Parse topParses[] = ParserTool.parseLine(jobdesc, parser, 1);
