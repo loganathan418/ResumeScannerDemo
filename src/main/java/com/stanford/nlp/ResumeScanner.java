@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.stanford.nlp.io.IOUtils;
 import opennlp.tools.cmdline.parser.ParserTool;
 import opennlp.tools.parser.Parse;
 import opennlp.tools.parser.Parser;
@@ -22,13 +23,14 @@ public class ResumeScanner{
 	static Set<String> adjectivePhrases = new HashSet<>();
 	static Set<String> verbPhrases = new HashSet<>();
 
-	private static String jobdesc =""; 
+	private static String jobdesc = ""; 
+	private static String resume = "";
 
 	public static void main(String[] args) throws Exception {
 		StandCoreNLP nlp = new StandCoreNLP();
 
 		// phase verb and noun in jobdescription and do lemmatization
-		jobdesc = readFile(args[0]);
+		jobdesc = IOUtils.slurpFile("jobDesciption.txt");
 		parserAction();
 		Set<String> descrip_noun = new HashSet<>();
 		Set<String> descrip_verb = new HashSet<>();
@@ -42,7 +44,7 @@ public class ResumeScanner{
 		//System.out.println(descrip_noun);
 
 		// phase verb and noun in resume and do lemmatization
-		String resume = readFile(args[1]);
+		resume = IOUtils.slurpFile("resume.txt");
 		List<String> pool = nlp.lemmatize(resume);
 
 		// calculate the freq of words in job description
@@ -118,7 +120,7 @@ public class ResumeScanner{
 
 	// search the noun and verb
 	public static void parserAction() throws Exception {
-		InputStream is = new FileInputStream("C:\\Users\\lmeenakshisundara\\Documents\\Logan_Code_Repo\\ResumeScannerDemo\\src\\main\\resources\\en-parser-chunking.bin");
+		InputStream is = new FileInputStream("src/main/resources/en-parser-chunking.bin");
 		ParserModel model = new ParserModel(is);
 		Parser parser = ParserFactory.create(model);
 		Parse topParses[] = ParserTool.parseLine(jobdesc, parser, 1);
